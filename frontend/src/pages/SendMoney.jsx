@@ -1,19 +1,37 @@
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
 import InputBox from "../components/InputBox";
-
+import axios from "axios";
+import { useState } from "react";
 function SendMoney()
 {
- return(<div className="flex w-screen h-screen justify-center items-center">
-    <div className="shadow-2xl border-black border-2 rounded-lg w-1/3 h-1/2 p-4 text-center">
-        <div className="font-bold text-lg py-4" >Send Money</div>
+    const navigate = useNavigate()
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get("id");
+    const name = searchParams.get("name");
+    const [amount, setAmount] = useState(0);
+    
+ return(<div className="flex items-center justify-center w-screen h-screen">
+    <div className="w-1/3 p-4 text-center border-2 border-black rounded-lg shadow-2xl h-1/2">
+        <div className="py-4 text-lg font-bold" >Send Money</div>
         <div className="pt-4">
-            <div className="flex justify-start items-center py-2">
-                <div className="mr-4 rounded-full bg-green-300 w-12 h-12 flex justify-center items-center">A</div>
-                <h1 className="font-bold">Friends Name</h1>
+            <div className="flex items-center justify-start py-2">
+                <div className="flex items-center justify-center w-12 h-12 mr-4 bg-green-300 rounded-full">A</div>
+                <h1 className="font-bold">{name}</h1>
             </div>
-            <InputBox heading="Amount (in Rs)" plchldr="Enter Amount"/>
-            <Button btnm="Initiate Transfer" />
-            
+            <InputBox onChange={(e)=>{setAmount(e.target.value)}} heading="Amount (in Rs)" plchldr="Enter Amount"/>
+            <Button onClick={()=>{
+                axios.post("http://localhost:3000/api/v1/account/transfer",{
+                    to:id,
+                    amount:amount
+                },{
+                    headers:{
+                        Authorization:'Bearer '+localStorage.getItem("token"),
+                    }
+                }).then(
+                ()=>{navigate("/dashboard");}
+                ).catch((e)=>{console.log(e);})
+            }} btnm="Initiate Transfer" />
         </div>
     </div>
  </div>);

@@ -77,8 +77,9 @@ userRouter.post("/signin", async (req, res) => {
     if (response.password == data.password) {
         const token = jwt.sign({ userId: user_id }, JWT_SECRET);
         res.status(200).json({
+            message:"succesfully signedin",
             token: token
-        });
+        }); 
     }
     else {
         res.status(411).json({

@@ -1,9 +1,8 @@
 const { Router } = require("express");
-const { authMiddleware } = require("../middleware/middleware");
-const { Account } = require("../db/db");
-const { mongo, default: mongoose } = require("mongoose");
+const { Account } = require("../db/db.js");
+const mongoose = require("mongoose");
+const { authMiddleware } = require("../middleware/middleware.js");
 const accountRouter = Router();
-
 accountRouter.get("/balance", authMiddleware, async (req, res) => {
     try {
         const userid = req.userId;
@@ -56,6 +55,7 @@ accountRouter.post("/transfer", authMiddleware, async (req, res) => {
         res.json("something went wrong");
     }
 })
+
 
 
 

@@ -5,6 +5,8 @@ import Heading from "../components/Heading";
 import InputBox from "../components/InputBox";
 import SubHeading from "../components/SubHeading";
 import axios from "axios";
+import { useState } from "react";
+
 function SignUp() {
 
     const [firstName,setFirstName]= useState();
@@ -29,6 +31,7 @@ function SignUp() {
                     password,
                 });
                 localStorage.setItem("token",response.data.token);
+                console.log(response.data.message);
                 navigate("/dashboard");
             }} />
             <BottomWarning to="/signin" label="Already have an account?" buttonText="Sign In" />

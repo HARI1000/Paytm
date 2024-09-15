@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
-function UserList()
+function UserList({usr})
 {
+    const navigate = useNavigate();
     return (<div className="flex justify-between">
         <div>
-            <h1>User</h1>
+            <h1>{usr.firstName} {usr.lastName}</h1>
         </div>
-        <Button  btnm="Send Money"/>
+        <Button onClick={()=>{navigate("/send?id=" + usr._id + "&name=" + usr.firstName);}}  btnm="Send Money"/>
     </div>);
 }
 export default UserList;
